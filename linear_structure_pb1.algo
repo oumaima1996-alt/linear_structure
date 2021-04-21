@@ -1,0 +1,71 @@
+//Method 1 using an  array 
+ALGORITHM Sum_distinct_el
+VAR
+    set1,set2 : ARRAY_OF INTEGER [30];
+    i,j : INTEGER;
+    sum:INTEGER:=0;
+    isFound:BOOLEAN
+BEGIN
+    FOR i FROM 0 TO set1.length STEP step  DO
+   isFound:=FALSE
+   FOR j FROM 0 TO set2.length STEP step  DO
+    IF (set1[i]=set2[i]) THEN
+        isFound:=TRUE;
+        break;
+    END_IF
+   END_FOR
+       IF (isFound=FALSE) THEN
+           sum:=sum+set1[i]
+       END_IF
+   END_FOR
+   FOR j FROM 0 TO set2.length STEP step  DO
+   isFound:=FALSE
+   FOR i FROM 0 TO set1.length STEP step  DO
+    IF (set1[i]=set2[i]) THEN
+        isFound:=TRUE;
+        break;
+    END_IF
+   END_FOR
+       IF (isFound=FALSE) THEN
+           sum:=sum+set2[i]
+       END_IF
+   END_FOR
+    Write('the sum of distincts elements is',sum)
+END
+
+
+
+// Method2  using Hashtable
+
+ALGORITHM Sum_distinct_el2
+VAR
+    arr1,arr2:ARRAY_OF INTEGER[200];
+    sum,count,i:INTEGER:=0;
+    keys:ARRAY_OF INTEGER[100];
+    htab: HASH_TABLE<INTEGER,INTEGER>;
+BEGIN
+     FOR i FROM 0 TO arr1.length STEP 1 DO
+    IF (htab.lookup(arr1[i])=TRUE) THEN
+        count:=htab.get(arr1[i]);
+        htab.insert(arr1[i],count+1)
+    ELSE
+        htab.insert(arr1[i],1)
+    END_IF
+    END_FOR
+    FOR i FROM 0 TO arr2.length STEP 1 DO
+    IF (htab.lookup(arr2[i])=TRUE) THEN
+        count:=htab.get(arr2[i]);
+        htab.insert(arr2[i],count+1)
+    ELSE
+        htab.insert(arr2[i],1)
+    END_IF
+    END_FOR
+  keys:=htab.getkey()
+  FOR i FROM 0 TO keys.length STEP 1  DO
+      IF (htab.get(keys[i]] = 1 ) THEN
+      sum:=sum+keys[i]
+         
+      END_IF
+  END_FOR
+  Write('the sum of distincts elements is',sum)
+END
